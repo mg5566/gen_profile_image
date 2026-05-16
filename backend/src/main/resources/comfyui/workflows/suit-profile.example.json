@@ -1,0 +1,14 @@
+{
+  "3": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "${input_image}"
+    }
+  },
+  "4": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "professional corporate profile photo, wearing a tailored suit, clean studio background"
+    }
+  }
+}
