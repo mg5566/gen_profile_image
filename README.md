@@ -8,10 +8,10 @@
 | --- | --- | --- |
 | Frontend | Vue | 3.5.22 |
 | Frontend | TypeScript | 5.9.3 |
-| Frontend | Vite | 6.3.5 |
+| Frontend | Vite | 6.4.2 |
 | Backend | Spring Boot | 3.5.7 |
-| Backend | Java target | 21 |
-| Backend build | Maven | 3.x |
+| Backend | Java target | 17 |
+| Backend build | Maven | 3.9.15 |
 | Image server | ComfyUI | `http://localhost:8188` 기준, 현재는 mock 모드 |
 | API | Multipart upload | `POST /api/profile-photo/suit` |
 
@@ -23,6 +23,18 @@ frontend/  Vue 3 + TypeScript 화면
 ```
 
 ## 백엔드 실행 방법
+
+asdf를 사용한다면 프로젝트 루트에서 설정된 런타임을 먼저 확인합니다.
+
+```bash
+asdf current
+```
+
+`mvn` 실행 시 Java Runtime을 찾지 못한다면 asdf Java hook을 shell 설정에 추가합니다.
+
+```bash
+. ~/.asdf/plugins/java/set-java-home.zsh
+```
 
 ```bash
 cd backend
