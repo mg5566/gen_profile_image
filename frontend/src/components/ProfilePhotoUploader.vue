@@ -2,6 +2,8 @@
 import { onBeforeUnmount, ref } from 'vue'
 import { convertToSuitProfile } from '../api/profilePhotoApi'
 
+const MAX_UPLOAD_SIZE_BYTES = 10 * 1024 * 1024
+
 const selectedFile = ref<File | null>(null)
 const beforeUrl = ref<string | null>(null)
 const afterUrl = ref<string | null>(null)
@@ -33,6 +35,11 @@ function setSelectedFile(file: File | null) {
 
   if (!file.type.startsWith('image/')) {
     errorMessage.value = '이미지 파일만 업로드할 수 있습니다.'
+    return
+  }
+
+  if (file.size > MAX_UPLOAD_SIZE_BYTES) {
+    errorMessage.value = '최대 10MB까지 업로드할 수 있습니다.'
     return
   }
 
