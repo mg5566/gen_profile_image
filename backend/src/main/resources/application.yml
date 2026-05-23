@@ -10,7 +10,7 @@ app:
     mock: ${COMFYUI_MOCK:true}
     fallback-to-mock: ${COMFYUI_FALLBACK_TO_MOCK:true}
     workflow-path: classpath:comfyui/workflows/suit-profile.example.json
-    checkpoint-name: ${COMFYUI_CHECKPOINT_NAME:realisticVisionV60B1_v51VAE.safetensors}
+    checkpoint-name: ${COMFYUI_CHECKPOINT_NAME:Realistic_Vision_V6.0_NV_B1_fp16.safetensors}
     positive-prompt: ${COMFYUI_POSITIVE_PROMPT:professional corporate headshot profile photo, wearing a tailored navy suit, white shirt, studio lighting, clean neutral background, realistic, high detail}
     negative-prompt: ${COMFYUI_NEGATIVE_PROMPT:low quality, blurry, distorted face, extra fingers, bad anatomy, cartoon, anime, watermark, text, logo}
     seed: ${COMFYUI_SEED:-1}

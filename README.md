@@ -54,7 +54,7 @@ app:
     mock: ${COMFYUI_MOCK:true}
     fallback-to-mock: ${COMFYUI_FALLBACK_TO_MOCK:true}
     workflow-path: classpath:comfyui/workflows/suit-profile.example.json
-    checkpoint-name: ${COMFYUI_CHECKPOINT_NAME:realisticVisionV60B1_v51VAE.safetensors}
+    checkpoint-name: ${COMFYUI_CHECKPOINT_NAME:Realistic_Vision_V6.0_NV_B1_fp16.safetensors}
     positive-prompt: ${COMFYUI_POSITIVE_PROMPT:professional corporate headshot profile photo, wearing a tailored navy suit, white shirt, studio lighting, clean neutral background, realistic, high detail}
     negative-prompt: ${COMFYUI_NEGATIVE_PROMPT:low quality, blurry, distorted face, extra fingers, bad anatomy, cartoon, anime, watermark, text, logo}
     seed: ${COMFYUI_SEED:-1}
@@ -71,13 +71,18 @@ app:
 기본값은 `COMFYUI_MOCK=true`이므로 실제 ComfyUI 서버를 호출하지 않습니다. 실제 연동 시에는 ComfyUI를 `http://localhost:8188`에서 실행한 뒤 백엔드를 다음처럼 실행합니다.
 
 ```bash
+cd /Users/hack3rs/goinfre/ComfyUI
+.venv/bin/python main.py --listen 127.0.0.1 --port 8188 --fp32-vae --force-upcast-attention
+```
+
+```bash
 cd backend
 COMFYUI_MOCK=false \
-COMFYUI_CHECKPOINT_NAME=your-model.safetensors \
+COMFYUI_CHECKPOINT_NAME=Realistic_Vision_V6.0_NV_B1_fp16.safetensors \
 mvn spring-boot:run
 ```
 
-`COMFYUI_CHECKPOINT_NAME`은 ComfyUI의 `models/checkpoints`에 들어 있는 실제 파일명과 정확히 일치해야 합니다. 현재 workflow는 표준 ComfyUI API 노드인 `CheckpointLoaderSimple -> CLIPTextEncode -> LoadImage -> VAEEncode -> KSampler -> VAEDecode -> SaveImage`로 구성되어 있습니다.
+`COMFYUI_CHECKPOINT_NAME`은 ComfyUI의 `models/checkpoints`에 들어 있는 실제 파일명과 정확히 일치해야 합니다. Apple Silicon/MPS에서는 VAE가 bf16으로 실행될 때 검은 이미지가 나올 수 있어 ComfyUI를 `--fp32-vae --force-upcast-attention` 옵션으로 실행합니다. 현재 workflow는 표준 ComfyUI API 노드인 `CheckpointLoaderSimple -> CLIPTextEncode -> LoadImage -> VAEEncode -> KSampler -> VAEDecode -> SaveImage`로 구성되어 있습니다.
 
 `COMFYUI_FALLBACK_TO_MOCK=true`이면 real 모드에서도 ComfyUI 서버 연결에 실패할 때 mock 이미지로 응답합니다. 실제 서버 오류를 바로 확인하고 싶으면 `COMFYUI_FALLBACK_TO_MOCK=false`로 실행하세요.
 
