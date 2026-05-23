@@ -52,6 +52,7 @@ app:
   comfyui:
     base-url: http://localhost:8188
     mock: ${COMFYUI_MOCK:true}
+    fallback-to-mock: ${COMFYUI_FALLBACK_TO_MOCK:true}
     workflow-path: classpath:comfyui/workflows/suit-profile.example.json
     checkpoint-name: ${COMFYUI_CHECKPOINT_NAME:realisticVisionV60B1_v51VAE.safetensors}
     positive-prompt: ${COMFYUI_POSITIVE_PROMPT:professional corporate headshot profile photo, wearing a tailored navy suit, white shirt, studio lighting, clean neutral background, realistic, high detail}
@@ -77,6 +78,8 @@ mvn spring-boot:run
 ```
 
 `COMFYUI_CHECKPOINT_NAME`은 ComfyUI의 `models/checkpoints`에 들어 있는 실제 파일명과 정확히 일치해야 합니다. 현재 workflow는 표준 ComfyUI API 노드인 `CheckpointLoaderSimple -> CLIPTextEncode -> LoadImage -> VAEEncode -> KSampler -> VAEDecode -> SaveImage`로 구성되어 있습니다.
+
+`COMFYUI_FALLBACK_TO_MOCK=true`이면 real 모드에서도 ComfyUI 서버 연결에 실패할 때 mock 이미지로 응답합니다. 실제 서버 오류를 바로 확인하고 싶으면 `COMFYUI_FALLBACK_TO_MOCK=false`로 실행하세요.
 
 ## 프론트엔드 실행 방법
 

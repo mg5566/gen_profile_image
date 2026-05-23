@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public record ComfyUiProperties(
         String baseUrl,
         boolean mock,
+        boolean fallbackToMock,
         String workflowPath,
         String checkpointName,
         String positivePrompt,

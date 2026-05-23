@@ -18,6 +18,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientResponseException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
@@ -50,6 +51,7 @@ public class RealComfyUiClient implements ComfyUiClient {
     private final ResourceLoader resourceLoader;
     private final ObjectMapper objectMapper;
     private final RestClient restClient;
+    private final MockComfyUiClient fallbackClient = new MockComfyUiClient();
 
     public RealComfyUiClient(ComfyUiProperties properties, ResourceLoader resourceLoader, ObjectMapper objectMapper) {
         this.properties = properties;
@@ -73,6 +75,11 @@ public class RealComfyUiClient implements ComfyUiClient {
         } catch (InterruptedException exception) {
             Thread.currentThread().interrupt();
             throw new ComfyUiException("ComfyUI 결과 대기 중 작업이 중단되었습니다.", exception);
+        } catch (ResourceAccessException exception) {
+            if (properties.fallbackToMock()) {
+                return generateFallback(inputImagePath, exception);
+            }
+            throw new ComfyUiException("ComfyUI 서버에 연결하지 못했습니다. " + properties.baseUrl() + " 서버가 실행 중인지 확인해주세요.", exception);
         } catch (RestClientResponseException exception) {
             throw new ComfyUiException("ComfyUI 서버가 오류를 반환했습니다. " + responseSummary(exception), exception);
         } catch (RuntimeException exception) {
@@ -80,6 +87,14 @@ public class RealComfyUiClient implements ComfyUiClient {
                 throw comfyUiException;
             }
             throw new ComfyUiException("ComfyUI 서버 호출 중 오류가 발생했습니다.", exception);
+        }
+    }
+
+    private byte[] generateFallback(Path inputImagePath, RuntimeException exception) {
+        try {
+            return fallbackClient.generateSuitProfile(inputImagePath);
+        } catch (IOException fallbackException) {
+            throw new ComfyUiException("ComfyUI 서버에 연결하지 못했고 mock fallback 생성도 실패했습니다.", exception);
         }
     }
 

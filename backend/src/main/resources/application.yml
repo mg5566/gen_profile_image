@@ -8,6 +8,7 @@ app:
   comfyui:
     base-url: http://localhost:8188
     mock: ${COMFYUI_MOCK:true}
+    fallback-to-mock: ${COMFYUI_FALLBACK_TO_MOCK:true}
     workflow-path: classpath:comfyui/workflows/suit-profile.example.json
     checkpoint-name: ${COMFYUI_CHECKPOINT_NAME:realisticVisionV60B1_v51VAE.safetensors}
     positive-prompt: ${COMFYUI_POSITIVE_PROMPT:professional corporate headshot profile photo, wearing a tailored navy suit, white shirt, studio lighting, clean neutral background, realistic, high detail}
