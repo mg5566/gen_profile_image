@@ -7,7 +7,17 @@ spring:
 app:
   comfyui:
     base-url: http://localhost:8188
-    mock: true
+    mock: ${COMFYUI_MOCK:true}
     workflow-path: classpath:comfyui/workflows/suit-profile.example.json
+    checkpoint-name: ${COMFYUI_CHECKPOINT_NAME:realisticVisionV60B1_v51VAE.safetensors}
+    positive-prompt: ${COMFYUI_POSITIVE_PROMPT:professional corporate headshot profile photo, wearing a tailored navy suit, white shirt, studio lighting, clean neutral background, realistic, high detail}
+    negative-prompt: ${COMFYUI_NEGATIVE_PROMPT:low quality, blurry, distorted face, extra fingers, bad anatomy, cartoon, anime, watermark, text, logo}
+    seed: ${COMFYUI_SEED:-1}
+    steps: ${COMFYUI_STEPS:24}
+    cfg: ${COMFYUI_CFG:7.0}
+    denoise: ${COMFYUI_DENOISE:0.65}
+    sampler-name: ${COMFYUI_SAMPLER_NAME:euler}
+    scheduler: ${COMFYUI_SCHEDULER:normal}
+    output-prefix: ${COMFYUI_OUTPUT_PREFIX:suit-profile}
     polling-timeout-seconds: 120
     polling-interval-millis: 1000

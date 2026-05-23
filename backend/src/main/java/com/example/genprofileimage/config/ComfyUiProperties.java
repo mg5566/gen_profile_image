@@ -7,6 +7,16 @@ public record ComfyUiProperties(
         String baseUrl,
         boolean mock,
         String workflowPath,
+        String checkpointName,
+        String positivePrompt,
+        String negativePrompt,
+        long seed,
+        int steps,
+        double cfg,
+        double denoise,
+        String samplerName,
+        String scheduler,
+        String outputPrefix,
         int pollingTimeoutSeconds,
         int pollingIntervalMillis
 ) {
